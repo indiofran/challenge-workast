@@ -7,9 +7,6 @@ module.exports = (app) => {
     // Retrieve all articles
     app.get('/articles', articles.findAll);
 
-    // Retrieve a single Note with noteId
-    app.get('/articles/:noteId', articles.findOne);
-
     // Update a Note with noteId
     app.put('/articles/:noteId', articles.update);
 

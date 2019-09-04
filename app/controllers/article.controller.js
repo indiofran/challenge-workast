@@ -11,8 +11,10 @@ exports.create = (req, res) => {
 
     // Create a Article
     const article = new Article({
-        name: req.body.name,
-        url: req.body.url || " "
+        title: req.body.title,
+        text: req.body.text,
+        tags: req.body.tags,
+        userId: req.body.user.id
     });
 
     // Save Article in the database
@@ -38,27 +40,7 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single Article with a userId
-exports.findOne = (req, res) => {
-    Article.findById(req.params.userId)
-        .then(article => {
-            if(!article) {
-                return res.status(404).send({
-                    message: "Article not found with id " + req.params.userId
-                });
-            }
-            res.send(article);
-        }).catch(err => {
-        if(err.kind === 'ObjectId') {
-            return res.status(404).send({
-                message: "Article ote not found with id " + req.params.userId
-            });
-        }
-        return res.status(500).send({
-            message: "Error retrieving article with id " + req.params.userId
-        });
-    });
-};
+
 
 // Update a article identified by the userId in the request
 exports.update = (req, res) => {
@@ -71,8 +53,10 @@ exports.update = (req, res) => {
 
     // Find article and update it with the request body
     Article.findByIdAndUpdate(req.params.noteId, {
-        title: req.body.title || "Untitled Article",
-        content: req.body.content
+        title: req.body.title,
+        text: req.body.text,
+        tags: req.body.tags,
+        userId: req.body.user.id
     }, {new: true})
         .then(article => {
             if(!article) {
